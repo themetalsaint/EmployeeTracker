@@ -1,3 +1,16 @@
+//**TO DO**
+
+//Schema DB with 3 tables
+
+// Use MySQL, Inquirer, Console.Table
+
+//SQL Joins? "You will need to perform a variety of SQL JOINS to complete this assignment, and it's recommended you review the week's activities if you need a refresher on this."
+
+//You may wish to include a `seed.sql` file to pre-populate your database. This will make development of individual features much easier.
+
+//You may wish to have a separate file containing functions for performing specific SQL queries you'll need to use. Could a constructor function or a class be helpful for organizing these?
+
+
 const inquirer = require('inquirer');
 const mysql = require('mysql');
 const consoleTable = require('console.table')
