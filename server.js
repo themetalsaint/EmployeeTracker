@@ -15,6 +15,7 @@ const inquirer = require('inquirer');
 const mysql = require('mysql');
 const consoleTable = require('console.table')
 const figlet = require('figlet');
+const util = require('util');
 
 const connection = mysql.createConnection({
     host: 'localhost',
@@ -22,12 +23,19 @@ const connection = mysql.createConnection({
     user: 'root',
     password: 'password',
     database: 'employeetracker',
+    
   });
 
+ connection.connect();
+ connection.query = util.promisify(connection.query);
+ 
 
-const start = () => {
+ 
 
-    figlet('Hello World!!', function(err, data) { //Code from class for popup
+ const start = () => {
+
+
+    figlet('Hello!!', function(err, data) { //Code from class for popup
         if (err) {
             console.log('Error...');
             console.dir(err);
@@ -35,25 +43,34 @@ const start = () => {
         }
         console.log(data)
     });
+
+    prompts()
+    }
+
+
+    function prompts(){
+        
+
     //prompts for the menu
     setTimeout(  () => {inquirer
       .prompt({
         name: 'startMenu',
         type: 'list',
         message: 'What would like to do? (use arrow keys)',
-        choices: ['View All Employees', 'View All Departments', 'View All Roles', 'Add Employee', 'Remove Employee', 'Add Department', 'Add Role', 'Update Employee', 'EXIT'],
+        choices: ['View All Employees', 'View All Departments', 'View All Roles', 'Add Employee', 'Update Employee', 'Remove Employee', 'Add Department', 'Add Role', 'EXIT'],
       })
       .then((answer) => {
         
         if (answer.startMenu === 'View All Employees') {
-            console.log("view All")
+            console.log("viewAll")
             viewAll()
+
         } else if (answer.startMenu === 'View All Departments') {
-            console.log("view D")
+            console.log("viewD")
             viewDepartments()
 
         } else if (answer.startMenu === 'View All Roles') {
-            console.log("view M")
+            console.log("viewM")
             viewRoles()
 
         } else if (answer.startMenu === 'Add Employee') {
@@ -61,11 +78,11 @@ const start = () => {
             addEmployee()
             
         } else if (answer.startMenu === 'Update Employee') {
-            console.log("update")
+            console.log("updateE")
             updateER()
 
         } else if (answer.startMenu === 'Remove Employee') {
-            console.log("remove")
+            console.log("removeE")
             removeEmployee()
 
         } else if (answer.startMenu === 'Add Role') {
@@ -83,4 +100,33 @@ const start = () => {
         }
       });
     }, 100) 
+    }
+    
+
+function viewAll(){
+    const employees = db.findAllEmployees();
+    prompts();
+    console.table(employees);
 }
+
+start();
+
+
+// findAllEmployees(){
+//     return this.connection.query(
+//        'SELECT employee.employeeId, employee.firstName, employee.lastName, employee.roleId, employee.managerId'
+
+//     );
+// };
+
+
+
+
+
+
+
+
+
+
+
+
