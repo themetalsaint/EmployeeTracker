@@ -116,8 +116,18 @@ const connection = mysql.createConnection({
 // }
 
 const viewAll = () => {
+ const query = `
+ SELECT
+ e.employeeid,
+ e.firstName,
+ e.lastName,
+r.roleName,
+ concat_ws(" ", m.firstName, m.lastName) as manager
+ FROM employeetracker.employee as e
+ LEFT JOIN employeetracker.employee AS m ON m.employeeid = e.managerid
+ LEFT JOIN employeetracker.roles AS r ON r.id = e.roleid`
 
-    connection.query("SELECT * FROM employee", (err, res) => {
+    connection.query(query, (err, res) => {
         if (err) throw err;
         // console.log(res)
         
@@ -148,7 +158,7 @@ inquirer
       {
         name: 'roleID',
         type: 'input',
-        message: 'What is the role of the employee? (use role ID number)',
+        message: 'What is the role of the employee? (use role ID number)', // Need to add a catch for duplicate IDs
       },
     //   {
     //     name: 'managerID',
@@ -183,7 +193,7 @@ inquirer
     });
 }
 
-const removeEmployee = () => { 
+const removeEmployee = () => { //undefinded errors?
     connection.query('SELECT * FROM employee', (err, results) => {
         if (err) throw err;
 
@@ -290,13 +300,13 @@ const addRole = () => { //Not Working
   {
     name: 'roleDepartment',
     type: 'input',
-    message: 'What is the new role department (use department ID)',
+    message: 'What is the new role?',
   },
 ])
 .then((answer) => {
 
   connection.query(
-    'INSERT INTO roles SET ?',
+    'INSERT INTO roles SET roleName = ?',
     
     {
       departmentID: answer.roleDepartment

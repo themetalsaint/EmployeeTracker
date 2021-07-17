@@ -15,9 +15,13 @@ CREATE TABLE employee(
 )
 
 -- CREATE TABLE department(
-
+    -- Human Resources
+    -- Billing
+    -- IT department
 -- )
 
 -- CREATE TABLE roles(
-
+-- Manager 
+-- Assistant Manager 
+-- Shift Leader
 -- )
